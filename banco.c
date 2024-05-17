@@ -11,9 +11,10 @@ ERROS criar(Banco dados[],int *pos){
   fgets(dados[*pos].cpf, CPF, stdin);
   dados[*pos].cpf[strcmp(dados[*pos].cpf, "\n")] = 0;
 
-  printf("Digite o tipo, Comum/Plus:");
+  printf("Digite o tipo, C/P:");
   fgets(dados[*pos].tipo, TIPO, stdin);
-  dados[*pos].tipo[strcmp(dados[*pos].tipo, "\n")] = 0; // arrumar
+  dados[*pos].tipo[strcmp(dados[*pos].tipo, "\n")] = 0;
+  clearBuffer();
 
   printf("Digite a senha:");
   fgets(dados[*pos].senha, SENHA, stdin);
@@ -48,44 +49,76 @@ ERROS listar(Banco dados[], int *pos) {
     return OK;
 }
 
-ERROS apagar(Banco dados[], int *pos, int id) { //pq ta marcado?
-    if (id < 0 || id >= *pos) {
+ERROS apagar(Banco dados[], int *pos) {
+    for (int i = 0; i < *pos; i++) {
+        printf("Digite seu CPF:");
+        char cpf[CPF];
+        fgets(cpf, CPF, stdin);
+        cpf[strcspn(cpf, "\n")] = '\0';
+        if (strcmp(dados[i].cpf, cpf) == 0) {
+            for (int j = i; j < *pos - 1; j++) {
+                dados[j] = dados[j + 1];
+            }
+            (*pos)--;
+            return OK;
+        }
+    }
+    return ERRO;
+}
+ERROS debito(Banco dados[], int *pos) { //pq ta marcado?
+        char cpf[CPF];
+        double valor;
+        printf("Digite o CPF do cliente para debitar: ");
+        fgets(cpf, CPF, stdin);
+        cpf[strcspn(cpf, "\n")] = 0;
+        printf("Digite o valor a ser debitado: ");
+        scanf("%lf", &valor);
+        clearBuffer();
+        for (int i = 0; i < *pos; i++) {
+            if (strcmp(dados[i].cpf, cpf) == 0) {
+                if (dados[i].saldo < valor) {
+                    return ERRO;
+                }
+                dados[i].saldo -= valor;
+                return OK;
+            }
+        }
         return ERRO;
     }
-    for (int i = id; i < *pos - 1; i++) {
-        dados[i] = dados[i + 1];
-    }
-    (*pos)--;
-    return OK;
-}
-ERROS debito(Banco dados[], int *pos, int id, double valor) { //pq ta marcado?
-    if (id < 0 || id >= *pos) {
+
+ERROS extrato(Banco dados[], int *pos) {
+        char cpf[CPF];
+        printf("Digite o CPF do cliente para ver o extrato: ");
+        fgets(cpf, CPF, stdin);
+        cpf[strcspn(cpf, "\n")] = 0;
+        for (int i = 0; i < *pos; i++) {
+            if (strcmp(dados[i].cpf, cpf) == 0) {
+                printf("Extrato do cliente %s:\n", dados[i].nome);
+                printf("CPF: %s\n", dados[i].cpf);
+                printf("Tipo: %s\n", dados[i].tipo);
+                printf("Saldo: %.2f\n\n", dados[i].saldo);
+                return OK;
+            }
+        }
         return ERRO;
     }
-    if (dados[id].saldo < valor) {
-        return ERRO;
-    }
-    dados[id].saldo -= valor;
-    return OK;
-}
-ERROS extrato(Banco dados[], int *pos, int id) {
-  if (id < 0 || id >= *pos) {
-      return ERRO;
-  }
-  printf("Extrato do cliente %s:\n", dados[id].nome);
-  printf("CPF: %s\n", dados[id].cpf);
-  printf("Tipo: %s\n", dados[id].tipo);
-  printf("Saldo: %.2f\n\n", dados[id].saldo);
-  return OK;
+
+ERROS transferencia(Banco dados[], int *pos) {
+    printf("Teste\n");
+
 }
 
-ERROS transferencia(Banco dados[], int *pos, int idOrigem, int idDestino, double valor) {}
+ERROS carregar(Banco dados[],int *pos) {
+    printf("Teste\n");
+}
 
 
-ERROS carregar(Banco dados[],int *pos);
+ERROS deposito(Banco dados[],int *pos){
+    printf("Teste\n");
+}
 
 
-ERROS deposito(Banco dados[],int *pos);
+
 
 
 void clearBuffer() {

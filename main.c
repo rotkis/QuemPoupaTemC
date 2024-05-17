@@ -26,12 +26,12 @@ int main(){
     clearBuffer();
 
     opcao--;
-    if (opcao < 1 || opcao > 10)
+    if (opcao < 0 || opcao > 10)
       printf("opção invalida\n");
     else if (opcao == 10)
       printf("sair\n");
     else
-      fs[opcao-1](dados, &pos); // colocar em opção o número certo
+      fs[opcao](dados, &pos); // colocar em opção o número certo
 
   } while (opcao != 10);
   return 0;

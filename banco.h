@@ -19,10 +19,10 @@ typedef ERROS (*funcao)(Banco[],int*);
 ERROS criar(Banco dados[],int *pos);
 ERROS salvar(Banco dados[],int *pos);
 ERROS listar(Banco dados[],int *pos);
-ERROS apagar(Banco dados[],int *pos, int id);
-ERROS debito(Banco dados[],int *pos, int id, double valor);
-ERROS extrato(Banco dados[],int *pos, int id);
-ERROS transferencia(Banco dados[],int *pos, int idOrigem, int idDestino, double valor);
+ERROS apagar(Banco dados[],int *pos);
+ERROS debito(Banco dados[],int *pos);
+ERROS extrato(Banco dados[],int *pos);
+ERROS transferencia(Banco dados[],int *pos);
 ERROS carregar(Banco dados[],int *pos);
 ERROS deposito(Banco dados[],int *pos);
 
