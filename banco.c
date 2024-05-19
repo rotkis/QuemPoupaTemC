@@ -10,6 +10,7 @@ ERROS criar(Banco dados[], int *pos) {
   printf("Digite o CPF: ");
   fgets(dados[*pos].cpf, CPF, stdin);
   dados[*pos].cpf[strcspn(dados[*pos].cpf, "\n")] = 0;
+  clearBuffer();
 
   while (1) {
     printf("Digite o tipo, C/P: ");
@@ -20,7 +21,6 @@ ERROS criar(Banco dados[], int *pos) {
     }
   }
   clearBuffer();
-
   printf("Digite a senha: ");
   fgets(dados[*pos].senha, SENHA, stdin);
   dados[*pos].senha[strcspn(dados[*pos].senha, "\n")] = 0;
@@ -93,6 +93,8 @@ ERROS debito(Banco dados[], int *pos) {
   printf("Digite o CPF do cliente para debitar: ");
   fgets(cpf, CPF, stdin);
   cpf[strcspn(cpf, "\n")] = 0;
+  clearBuffer();
+
   printf("Digite a senha do cliente: ");
   fgets(senha, SENHA, stdin);
   senha[strcspn(senha, "\n")] = 0;
@@ -109,11 +111,11 @@ ERROS debito(Banco dados[], int *pos) {
         double limite_negativo;
 
         if (strcmp(dados[i].tipo, "C") == 0) {
-          taxa = 0.05;                // 5% taxa para Conta Corrente
-          limite_negativo = -1000.00; // Limite negativo de até R$ 1.000,00
+          taxa = 0.05;                
+          limite_negativo = -1000.00; 
         } else if (strcmp(dados[i].tipo, "P") == 0) {
-          taxa = 0.03;                // 3% taxa para Conta Poupança
-          limite_negativo = -5000.00; // Limite negativo de até R$ 5.000,00
+          taxa = 0.03;                
+          limite_negativo = -5000.00; 
         } else {
           printf("Tipo de conta desconhecido.\n");
           return ERRO;
@@ -217,13 +219,13 @@ ERROS transferencia(Banco dados[], int *pos) {
     double taxa;
     double limite_negativo;
 
-    // Definir a taxa e o limite negativo com base no tipo de conta de origem
+    
     if (strcmp(dados[origemIndex].tipo, "C") == 0) {
-        taxa = 0.05;                // 5% taxa para Conta Corrente
-        limite_negativo = -1000.00; // Limite negativo de até R$ 1.000,00
+        taxa = 0.05;                
+        limite_negativo = -1000.00; 
     } else if (strcmp(dados[origemIndex].tipo, "P") == 0) {
-        taxa = 0.03;                // 3% taxa para Conta Poupança
-        limite_negativo = -5000.00; // Limite negativo de até R$ 5.000,00
+        taxa = 0.03;                
+        limite_negativo = -5000.00; 
     } else {
         printf("Tipo de conta desconhecido.\n");
         return ERRO;
@@ -236,15 +238,13 @@ ERROS transferencia(Banco dados[], int *pos) {
         return ERRO;
     }
 
-    // Atualizar os saldos das contas de origem e destino
     dados[origemIndex].saldo -= valor_total;
     dados[destinoIndex].saldo += valor;
 
-    // Registrar a transação no histórico de ambas as contas
     snprintf(dados[origemIndex].historico[dados[origemIndex].numTransacoes++], TRANSACAO,
-             "Transferência para %s: -%.2f (incluindo taxa de %.2f)", cpf_destino, valor, valor * taxa);
+             "Transferência para %s: -%.2f (incluindo taxa de %.2f)", dados[destinoIndex].nome, valor, valor * taxa);
     snprintf(dados[destinoIndex].historico[dados[destinoIndex].numTransacoes++], TRANSACAO,
-             "Transferência de %s: +%.2f", cpf_origem, valor);
+             "Transferência de %s: +%.2f", dados[origemIndex].nome, valor);
 
     printf("Transferência realizada com sucesso.\n");
     return OK;

@@ -1,5 +1,5 @@
 #define NOME 100
-#define CPF 12
+#define CPF 13
 #define TIPO 2
 #define SENHA 20
 #define HISTORICO 100
