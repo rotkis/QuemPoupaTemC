@@ -1,16 +1,19 @@
-#define NOME 20
-#define CPF 12
+#define NOME 100
+#define CPF 13
 #define TIPO 2
 #define SENHA 20
-#define SALDOI 225
+#define HISTORICO 100
+#define TRANSACAO 256
 
-typedef struct{
-  char nome[NOME];
-  char cpf[CPF];
-  char tipo[TIPO];
-  char senha[SENHA];
-  double saldo;
-} Banco;	
+typedef struct {
+    char nome[NOME];
+    char cpf[CPF];
+    char tipo[TIPO];
+    char senha[SENHA];
+    double saldo;
+    char historico[HISTORICO][TRANSACAO];
+    int numTransacoes;
+} Banco;
 
 typedef enum {OK, ERRO, ABRIR, FECHAR, LER, ESCREVER} ERROS;
 
